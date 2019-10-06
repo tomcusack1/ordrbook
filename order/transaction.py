@@ -1,12 +1,15 @@
 from decimal import * 
-import time, random
 
-class Order(object):
+
+class Transaction:
     '''
     Orders represent the core piece of the exchange. Every bid/ask is an Order.
     Orders are doubly linked and have helper functions (next_order, prev_order)
     to help the exchange fullfill orders with quantities larger than a single
     existing Order.
+
+    Formerly: Order()
+
     '''
     def __init__(self, quote, order_list):
         self.timestamp = int(quote['timestamp']) # integer representing the timestamp of order creation

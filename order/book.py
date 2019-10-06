@@ -1,57 +1,61 @@
 from bintrees import RBTree
-from orderlist import OrderList
-from order import Order
 
-class OrderTree(object):
-    '''A red-black tree used to store OrderLists in price order
+from order.order import Order
+from order.transaction import Transaction
 
-    The exchange will be using the OrderTree to hold bid and ask data (one OrderTree for each side).
-    Keeping the information in a red black tree makes it easier/faster to detect a match.
-    '''
 
+class Book(object):
+    """Each side of the Order Book has a tree instantiated.
+
+    """
     def __init__(self):
         self.price_tree = RBTree()
-        self.price_map = {} # Dictionary containing price : OrderList object
-        self.order_map = {} # Dictionary containing order_id : Order object
-        self.volume = 0 # Contains total quantity from all Orders in tree
-        self.num_orders = 0 # Contains count of Orders in tree
-        self.depth = 0 # Number of different prices in tree (http://en.wikipedia.org/wiki/Order_book_(trading)#Book_depth)
-
-    def __len__(self):
-        return len(self.order_map)
+        self.price_map = dict()  # Dictionary containing price : OrderList object
+        self.order_map = dict()  # Dictionary containing order_id : Order object
+        self.volume = 0  # Contains total quantity from all Orders in tree
+        self.num_orders = 0  # Contains count of Orders in tree
+        self.depth = 0  # Number of different prices in tree (http://en.wikipedia.org/wiki/Order_book_(trading)#Book_depth)
 
     def get_price_list(self, price):
+
         return self.price_map[price]
 
     def get_order(self, order_id):
+
         return self.order_map[order_id]
 
     def create_price(self, price):
-        self.depth += 1 # Add a price depth level to the tree
-        new_list = OrderList()
-        self.price_tree.insert(price, new_list) # Insert a new price into the tree
-        self.price_map[price] = new_list # Can i just get this by using self.price_tree.get_value(price)? Maybe this is faster though.
+        self.depth += 1
+        new_price = Order()
+        self.price_tree.insert(price, new_price)
+        self.price_map[price] = new_price
 
     def remove_price(self, price):
-        self.depth -= 1 # Remove a price depth level
+        self.depth -= 1
         self.price_tree.remove(price)
+
         del self.price_map[price]
 
     def price_exists(self, price):
+
         return price in self.price_map
 
     def order_exists(self, order):
+
         return order in self.order_map
 
     def insert_order(self, quote):
-        print quote
         if self.order_exists(quote['order_id']):
             self.remove_order_by_id(quote['order_id'])
+
         self.num_orders += 1
+
         if quote['price'] not in self.price_map:
             self.create_price(quote['price']) # If price not in Price Map, create a node in RBtree
-        order = Order(quote, self.price_map[quote['price']]) # Create an order
-        self.price_map[order.price].append_order(order) # Add the order to the OrderList in Price Map
+
+        order = Transaction(quote, self.price_map[quote['price']]) # Create an order
+        
+        self.price_map[order.price].append(order) # Add the order to the OrderList in Price Map
         self.order_map[order.order_id] = order
         self.volume += order.quantity
 
@@ -61,7 +65,7 @@ class OrderTree(object):
         if order_update['price'] != order.price:
             # Price changed. Remove order and update tree.
             order_list = self.price_map[order.price]
-            order_list.remove_order(order)
+            order_list.remove(order)
             if len(order_list) == 0: # If there is nothing else in the OrderList, remove the price from RBtree
                 self.remove_price(order.price)
             self.insert_order(order_update)
@@ -74,7 +78,7 @@ class OrderTree(object):
         self.num_orders -= 1
         order = self.order_map[order_id]
         self.volume -= order.quantity
-        order.order_list.remove_order(order)
+        order.order_list.remove(order)
         if len(order.order_list) == 0:
             self.remove_price(order.price)
         del self.order_map[order_id]
@@ -102,3 +106,7 @@ class OrderTree(object):
             return self.get_price_list(self.min_price())
         else:
             return None
+
+    def __len__(self):
+
+        return len(self.order_map)

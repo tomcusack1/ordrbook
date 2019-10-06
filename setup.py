@@ -1,15 +1,11 @@
 from distutils.core import setup
 
-setup(
-    name='OrderBook',
-    version='0.1.2',
-    author='Michael Nguyen',
-    author_email='dyn4mik3@gmail.com',
-    packages=['orderbook'],
-    url='http://pypi.python.org/pypi/OrderBook/',
-    license='LICENSE.txt',
-    description='Limit Order Book Matching Engine',
-    install_requires=[
-        "bintrees >= 2.0.1"
-        ],
-    )
+
+setup(name='order',
+      version='0.0.1',
+      author='Tom Cusack-Huang',
+      author_email='tom@cusack-huang.com',
+      packages=['order'],
+      url='https://github.com/tomcusack1/order',
+      description='Limit Order Book Matching Engine',
+      install_requires=[])
