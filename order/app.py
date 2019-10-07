@@ -99,7 +99,7 @@ class OrderBook(object):
 
         while len(orders) > 0 and quantity > 0:
 
-            head_order = orders.get_head_order()
+            head_order = orders.head
             traded_price = head_order.price
             counter_party = head_order.trade_id
 
