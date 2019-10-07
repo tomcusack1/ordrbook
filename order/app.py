@@ -6,6 +6,7 @@ from order.book import Book
 
 
 class OrderBook(object):
+
     def __init__(self, tick_size=0.0001):
         self.tape = deque(maxlen=None)  # 0th position is the most recent trade
         self.bids = Book()
@@ -21,10 +22,11 @@ class OrderBook(object):
 
         Example:
             quote = {
-                'timestamp': 12345678910,
+                'order_id': 1,
+                'timestamp': 1521462189,
                 'type': 'bid',
                 'quantity': 10,
-                'price' 100.,
+                'price': 100.,
                 'type': 'limit'
             }
 
@@ -64,11 +66,14 @@ class OrderBook(object):
             counter_party = head_order.trade_id
 
             if quantity_to_trade < head_order.quantity:
+
                 traded_quantity = quantity_to_trade
-                # Do the transaction
+
+                # Do the transaction:
                 new_book_quantity = head_order.quantity - quantity_to_trade
                 head_order.update_quantity(new_book_quantity, head_order.timestamp)
                 quantity_to_trade = 0
+
             elif quantity_to_trade == head_order.quantity:
                 traded_quantity = quantity_to_trade
                 if side == 'bid':
