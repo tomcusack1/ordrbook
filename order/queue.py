@@ -1,14 +1,5 @@
 class Queue:
-    """A doubly linked list of Orders. Used to iterate through Orders when
-    a price match is found. Each OrderList is associated with a single
-    price. Since a single price match can have more quantity than a single 
-    Order, we may need multiple Orders to fullfill a transaction. The
-    OrderList makes this easy to do. OrderList is naturally arranged by time.
-    Orders at the front of the list have priority.
 
-    Formerly: OrderList()
-
-    """
     def __init__(self):
         self._head = None  # first order in the list
         self._tail = None  # last order in the list
@@ -16,7 +7,7 @@ class Queue:
         self.volume = 0  # sum of Order quantity in the list AKA share volume
         self.last = None  # helper for iterating
 
-    def next(self):
+    def next_order(self):
         """Get the next order in the list.
         
         Set self.last as the next order. If there is no next order, stop

@@ -13,7 +13,7 @@ class Order:
         self.quantity = Decimal(quote['quantity'])  # Quantity can be partial amounts
         self.price = Decimal(quote['price'])
         self.order_id = quote['order_id']
-        self.trade_id = int(quote['trade_id'])
+        self.trade_id = quote['trade_id']
         self.next_order = None
         self.previous_order = None
         self.order_list = order_list
@@ -27,9 +27,11 @@ class Order:
         return self.previous_order
 
     def update_quantity(self, new_quantity, new_timestamp):
+        """Updates the quantity of shares outstanding to be bought/sold."""
         if new_quantity > self.quantity and self.order_list.tail != self:
-            # check to see that the order is not the last order in list and the quantity is more
+            # Check to see that the order is not the last order in list and the quantity is more
             self.order_list.move_to_tail(self) # move to the end
-        self.order_list.volume -= (self.quantity - new_quantity) # update volume
+
+        self.order_list.volume -= self.quantity - new_quantity
         self.timestamp = new_timestamp
         self.quantity = new_quantity
