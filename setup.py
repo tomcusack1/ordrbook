@@ -1,4 +1,5 @@
 from distutils.core import setup
+import setuptools
 
 
 setup(name='order',
@@ -7,5 +8,4 @@ setup(name='order',
       author_email='tom@cusack-huang.com',
       packages=['order'],
       url='https://github.com/tomcusack1/order',
-      description='Limit Order Book Matching Engine',
-      install_requires=[])
+      description='Limit Order Book Matching Engine')
