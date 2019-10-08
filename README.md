@@ -24,6 +24,43 @@ They arrive in the following order:
 
 B1, B2, S1 (Match! B1 Gets Priority), B3, S2, S3 (Match! B2 is part-filled).
 
+```python
+from order.app import OrderBook
+
+
+order_book = OrderBook()
+
+
+# B1: BUY 10 LIMIT 99
+order_book.bid_limit_order({'order_id': 'b1', 'trade_id': 'b1', 'timestamp': 1,
+                            'type': 'bid', 'quantity': 10, 'price': 99., 'type': 'limit'})
+
+# B2: BUY 40 LIMIT 99
+order_book.bid_limit_order({'order_id': 'b2', 'trade_id': 'b2', 'timestamp': 2,
+                            'type': 'bid', 'quantity': 40, 'price': 99., 'type': 'limit'})
+
+# S1: SELL 30 LIMIT 98 (Match! B1 Gets Priority)
+order_book.ask_limit_order({'order_id': 's1', 'trade_id': 's1', 'timestamp': 3,
+                            'type': 'ask', 'quantity': 30, 'price': 98., 'type': 'limit'})
+
+# B3: BUY 20 LIMIT 100
+order_book.bid_limit_order({'order_id': 'b3', 'trade_id': 'b3', 'timestamp': 4,
+                            'type': 'bid', 'quantity': 20, 'price': 100., 'type': 'limit'})
+
+# S2: SELL 20 LIMIT 101 (Price cannot be fulfilled yet. Placed on order book.)
+order_book.ask_limit_order({'order_id': 's2', 'trade_id': 's2', 'timestamp': 5,
+                            'type': 'ask', 'quantity': 20, 'price': 101., 'type': 'limit'})
+
+# S3: SELL 10 LIMIT 99 (Match! B2 is part-filled.)
+order_book.ask_limit_order({'order_id': 's3', 'trade_id': 's3', 'timestamp': 6,
+                            'type': 'bid', 'quantity': 10, 'price': 99., 'type': 'limit'})
+
+# See trades
+list(order_book.tape)
+```
+
+----
+
 ### Installation
 
 `conda create -n orderbook python=3.7`
@@ -33,31 +70,3 @@ B1, B2, S1 (Match! B1 Gets Priority), B3, S2, S3 (Match! B2 is part-filled).
 `pip install -r requirements.txt`
 
 `python setup.py install`
-
-### Sample Usage
-
-```python
-from time import time
-from uuid import uuid4
-
-from order.app import OrderBook
-
-
-order_book = OrderBook()
-
-# SELL 100 LIMIT 90
-order_book.ask_limit_order({'order_id': str(uuid4()), 'trade_id': str(uuid4()), 'timestamp': int(time()),
-                            'type': 'ask', 'quantity': 100, 'price': 90., 'type': 'limit'})
-
-# BUY 1000 LIMIT 100
-order_book.bid_limit_order({'order_id': str(uuid4()), 'trade_id': str(uuid4()), 'timestamp': int(time()),
-                            'type': 'bid', 'quantity': 1000, 'price': 100.0, 'type': 'limit'})
-
-# SELL 100
-order_book.ask_market_order({'order_id': str(uuid4()), 'trade_id': str(uuid4()), 'timestamp': int(time()),
-                             'type': 'ask', 'quantity': 100, 'type': 'market'})
-
-# BUY 50
-order_book.bid_market_order({'order_id': str(uuid4()), 'trade_id': str(uuid4()), 'timestamp': int(time()),
-                             'type': 'bid', 'quantity': 50, 'type': 'market'})
-```
