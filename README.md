@@ -22,7 +22,7 @@ Consider the following orders:
 
 They arrive in the following order:
 
-B1, B2, S1 (Match! B1 Gets Priority), B3, S2, S3 (Match! B2 is part-filled).
+![Trade Order](https://latex.codecogs.com/png.latex?\large&space;b_{1}&space;\rightarrow&space;b_{2}&space;\rightarrow&space;s_{1}&space;\rightarrow&space;b_{3}&space;\rightarrow&space;s_{2}&space;\rightarrow&space;s_{3})
 
 ```python
 from order.app import OrderBook
