@@ -59,6 +59,12 @@ order_book.ask_limit_order({'order_id': 's3', 'trade_id': 's3', 'timestamp': 6,
 list(order_book.tape)
 ```
 
+
+There are two important points to mention, regarding broadcasting the order book publicly:
+
+  1. Neither counterparty can know whom they were matched with. Only the exchange can know this information.
+  2. Only the depth can be visible to the public. The individual trade sizes must not be made public.
+
 ----
 
 ### Installation
