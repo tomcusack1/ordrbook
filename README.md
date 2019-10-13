@@ -65,6 +65,28 @@ There are two important points to mention, regarding broadcasting the order book
   1. Neither counterparty can know whom they were matched with. Only the exchange can know this information.
   2. Only the depth can be visible to the public. The individual trade sizes must not be made public.
 
+You can view the order book and/or trades by using the following code:
+
+```python
+print('Trades:')
+
+for entry in order_book.tape:
+    print(f"`{entry['party1'][0]}` sold {entry['quantity']} @ £{entry['price']} to `{entry['party2'][0]}`")
+
+print('Order Book:')
+print('Bids:')
+
+if order_book.bids != None and len(order_book.bids) > 0:
+    for key, value in order_book.bids.tree.items(reverse=True):
+        print(f'Price: {key}, Volume: {value.volume}')
+
+print('Asks:')
+
+if order_book.asks != None and len(order_book.bids) > 0:
+    for key, value in order_book.asks.tree.items():
+        print(f'Price: {key}, Volume: {value.volume}')
+```
+
 ----
 
 ### Installation
