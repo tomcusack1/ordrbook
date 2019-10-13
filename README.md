@@ -25,7 +25,7 @@ They arrive in the following order:
 ![Trade Order](https://latex.codecogs.com/png.latex?\large&space;b_{1}&space;\rightarrow&space;b_{2}&space;\rightarrow&space;s_{1}&space;\rightarrow&space;b_{3}&space;\rightarrow&space;s_{2}&space;\rightarrow&space;s_{3})
 
 ```python
-from order.app import OrderBook
+from order.orderbook import OrderBook
 
 
 order_book = OrderBook()
