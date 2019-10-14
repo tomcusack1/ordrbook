@@ -28,37 +28,26 @@ They arrive in the following order:
 from ordrbook import OrderBook
 
 
-order_book = OrderBook()
-
+book = OrderBook()
 
 # B1: BUY 10 LIMIT 99
-order_book.bid_limit_order({'order_id': 'b1', 'trade_id': 'b1', 'timestamp': 1,
-                            'type': 'bid', 'quantity': 10, 'price': 99., 'type': 'limit'})
+book.bid({'order_id': 'b1', 'trade_id': 'b1', 'timestamp': 1, 'quantity': 10, 'price': 99.})
 
 # B2: BUY 40 LIMIT 99
-order_book.bid_limit_order({'order_id': 'b2', 'trade_id': 'b2', 'timestamp': 2,
-                            'type': 'bid', 'quantity': 40, 'price': 99., 'type': 'limit'})
+book.bid({'order_id': 'b2', 'trade_id': 'b2', 'timestamp': 2, 'quantity': 40, 'price': 99.})
 
 # S1: SELL 30 LIMIT 98 (Match! B1 Gets Priority)
-order_book.ask_limit_order({'order_id': 's1', 'trade_id': 's1', 'timestamp': 3,
-                            'type': 'ask', 'quantity': 30, 'price': 98., 'type': 'limit'})
+book.ask({'order_id': 's1', 'trade_id': 's1', 'timestamp': 3, 'quantity': 30, 'price': 98.})
 
 # B3: BUY 20 LIMIT 100
-order_book.bid_limit_order({'order_id': 'b3', 'trade_id': 'b3', 'timestamp': 4,
-                            'type': 'bid', 'quantity': 20, 'price': 100., 'type': 'limit'})
+book.bid({'order_id': 'b3', 'trade_id': 'b3', 'timestamp': 4, 'quantity': 20, 'price': 100.})
 
 # S2: SELL 20 LIMIT 101 (Price cannot be fulfilled yet. Placed on order book.)
-order_book.ask_limit_order({'order_id': 's2', 'trade_id': 's2', 'timestamp': 5,
-                            'type': 'ask', 'quantity': 20, 'price': 101., 'type': 'limit'})
+book.ask({'order_id': 's2', 'trade_id': 's2', 'timestamp': 5, 'quantity': 20, 'price': 101.})
 
 # S3: SELL 10 LIMIT 99 (Match! B2 is part-filled.)
-order_book.ask_limit_order({'order_id': 's3', 'trade_id': 's3', 'timestamp': 6,
-                            'type': 'bid', 'quantity': 10, 'price': 99., 'type': 'limit'})
-
-# See trades
-list(order_book.tape)
+book.ask({'order_id': 's3', 'trade_id': 's3', 'timestamp': 6, 'quantity': 10, 'price': 99.})
 ```
-
 
 There are two important points to mention, regarding broadcasting the order book publicly:
 
