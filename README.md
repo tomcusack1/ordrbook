@@ -25,7 +25,7 @@ They arrive in the following order:
 ![Trade Order](https://latex.codecogs.com/png.latex?\large&space;b_{1}&space;\rightarrow&space;b_{2}&space;\rightarrow&space;s_{1}&space;\rightarrow&space;b_{3}&space;\rightarrow&space;s_{2}&space;\rightarrow&space;s_{3})
 
 ```python
-from order.orderbook import OrderBook
+from ordrbook import OrderBook
 
 
 order_book = OrderBook()
@@ -91,10 +91,4 @@ if order_book.asks != None and len(order_book.bids) > 0:
 
 ### Installation
 
-`conda create -n orderbook python=3.7`
-
-`source activate orderbook`
-
-`pip install -r requirements.txt`
-
-`python setup.py install`
+`pip install ordrbook`

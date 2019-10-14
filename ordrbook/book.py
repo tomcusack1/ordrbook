@@ -1,7 +1,7 @@
 from bintrees import RBTree
 
-from order.queue import Queue
-from order.order import Order
+from ordrbook.queue import Queue
+from ordrbook.order import Order
 
 
 class Book(object):
