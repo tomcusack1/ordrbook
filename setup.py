@@ -8,6 +8,6 @@ setup(name='ordrbook',
       author_email='tom@cusack-huang.com',
       packages=['ordrbook'],
       url='https://github.com/tomcusack1/ordrbook',
-      download_url='https://github.com/tomcusack1/ordrbook/dist/ordrbook-0.0.2.tar.gz',
+      download_url='https://github.com/tomcusack1/ordrbook/archive/v0.0.2.tar.gz',
       description='Limit Order Book',
       install_requires=['bintrees', 'blkchn'])

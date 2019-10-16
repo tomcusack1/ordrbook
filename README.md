@@ -1,3 +1,5 @@
+[![Build Status](http://178.62.80.42:8081/buildStatus/icon?job=blkchn%2Fdevelop&build=2)](http://178.62.80.42:8081/job/blkchn/job/develop/2/)
+
 # A Python Implementation of a Limit Order Book
 
 A limit orders describes:
@@ -49,6 +51,12 @@ book.order({'type': 'ask', 'order_id': 's2', 'trade_id': 's2', 'timestamp': 5, '
 # S3: SELL 10 LIMIT 99 (Match! B2 is part-filled.)
 book.order({'type': 'ask', 'order_id': 's3', 'trade_id': 's3', 'timestamp': 6, 'quantity': 10, 'price': 99.})
 
+# Create a new block
+last_block = book.blockchain.last_block
+proof = book.blockchain.proof_of_work(last_block)
+previous_hash = book.blockchain.hash(last_block)
+book.blockchain.new_block(proof, previous_hash)
+
 # See trades on the blockchain
 book.blockchain.chain
 ```
@@ -69,7 +77,7 @@ if book.bids != None and len(book.bids) > 0:
 
 print('Asks:')
 
-if book.asks != None and len(book.bids) > 0:
+if book.asks != None and len(book.asks) > 0:
     for key, value in book.asks.tree.items():
         print(f'Price: {key}, Volume: {value.volume}')
 ```
