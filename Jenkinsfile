@@ -28,7 +28,7 @@ pipeline {
             }
             steps {
                 container('jx-base') {
-                    sh "echo 'hello'"
+                    sh "echo 'orderbook'"
                 }
             }
         }
