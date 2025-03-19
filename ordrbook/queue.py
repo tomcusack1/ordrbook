@@ -1,15 +1,16 @@
+from ordrbook.order import Order
 class Queue:
 
     def __init__(self):
-        self._head = None  # first order in the list
-        self._tail = None  # last order in the list
-        self.length = 0  # number of Orders in the list
-        self.volume = 0  # sum of Order quantity in the list AKA share volume
-        self.last = None  # helper for iterating
+        self._head: Order | None = None  # First order in the list
+        self._tail: Order | None = None  # Last order in the list
+        self.length: int = 0  # Number of Orders in the list
+        self.volume: int = 0  # Sum of Order quantity in the list AKA share volume
+        self.last: Order | None = None  # Helper for iterating
 
     def next_order(self):
         """Get the next order in the list.
-        
+
         Set self.last as the next order. If there is no next order, stop
         iterating through list.
         """
@@ -28,7 +29,7 @@ class Queue:
         return self._head
 
     @head.setter
-    def head(self, value):
+    def head(self, value: Order):
 
         self._head = value
 
@@ -54,7 +55,7 @@ class Queue:
             self.tail.next_order = order
             self.tail = order
 
-        self.length +=1
+        self.length += 1
         self.volume += order.quantity
 
     def remove(self, order):
@@ -67,7 +68,7 @@ class Queue:
         self.volume -= order.quantity
         self.length -= 1
 
-        if len(self) == 0:
+        if self.length == 0:
             return
 
         next_order = order.next_order
@@ -76,22 +77,26 @@ class Queue:
         if next_order is not None and previous_order is not None:
             next_order.previous_order = previous_order
             previous_order.next_order = next_order
-        elif next_order is not None: # There is no previous order
+        elif next_order is not None:  # There is no previous order
             next_order.previous_order = None
-            self.head = next_order # The next order becomes the first order in the OrderList after this Order is removed
-        elif previous_order is not None: # There is no next order
+            self.head = next_order  # The next order becomes the first order in the OrderList after this Order is removed
+        elif previous_order is not None:  # There is no next order
             previous_order.next_order = None
-            self.tail = previous_order # The previous order becomes the last order in the OrderList after this Order is removed
+            self.tail = previous_order  # The previous order becomes the last order in the OrderList after this Order is removed
 
     def move_to_tail(self, order):
         """After updating the quantity of an existing Order, move it to the tail of the OrderList
 
         Check to see that the quantity is larger than existing, update the quantities, then move to tail.
         """
-        if order.previous_order is not None: # This Order is not the first Order in the OrderList
-            order.previous_order.next_order = order.next_order # Link the previous Order to the next Order, then move the Order to tail
-        else: # This Order is the first Order in the OrderList
-            self.head = order.next_order # Make next order the first
+        if (
+            order.previous_order is not None
+        ):  # This Order is not the first Order in the OrderList
+            order.previous_order.next_order = (
+                order.next_order
+            )  # Link the previous Order to the next Order, then move the Order to tail
+        else:  # This Order is the first Order in the OrderList
+            self.head = order.next_order  # Make next order the first
 
         order.next_order.previous_order = order.previous_order
 
