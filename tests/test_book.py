@@ -17,7 +17,7 @@ def book_with_order():
         "order_id": "test1",
         "quantity": 5,
         "price": Decimal("100.50"),
-        "timestamp": "1234567890",
+        "timestamp": 1234567890,
         "trade_id": "trade1"
     }
     book.insert_order(order)
@@ -38,7 +38,7 @@ def test_insert_order(empty_book):
         "order_id": "test1", 
         "quantity": 5,
         "price": Decimal("100.50"),
-        "timestamp": "1234567890",
+        "timestamp": 1234567890,
         "trade_id": "trade1"
     }
     empty_book.insert_order(quote=order)
@@ -63,7 +63,7 @@ def test_update_order_quantity(book_with_order):
         "order_id": "test1",
         "quantity": 5,
         "price": Decimal("100.50"),
-        "timestamp": "1234567890"
+        "timestamp": 1234567890
     }
     book_with_order.update_order(update)
     
@@ -76,7 +76,8 @@ def test_update_order_price(book_with_order):
         "order_id": "test1",
         "quantity": 5,
         "price": Decimal("101.50"),
-        "timestamp": "1234567890"
+        "timestamp": 1234567890,
+        "trade_id": "trade1"
     }
     book_with_order.update_order(update)
     
@@ -94,7 +95,7 @@ def test_max_min_price(book_with_order):
         "order_id": "test2",
         "quantity": 5,
         "price": Decimal("99.50"),
-        "timestamp": "1234567890",
+        "timestamp": 1234567890,
         "trade_id": "trade2"
     }
     book_with_order.insert_order(order2)

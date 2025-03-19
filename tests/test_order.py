@@ -33,18 +33,18 @@ def test_order_initialization(empty_queue):
 
 def test_update_quantity():
     queue = Queue()
-    order = Order({
+    order = Order(quote={
         "order_id": "test1",
         "quantity": 5,
         "price": Decimal("100.50"),
-        "timestamp": "1234567890",
+        "timestamp": 1234567890,
         "trade_id": "trade1"
-    }, queue)
+    }, order_list=queue)
 
-    order.update_quantity(10, "1234567891")
+    order.update_quantity(new_quantity=10, new_timestamp=1234567891)
 
     assert order.quantity == 10
-    assert order.timestamp == "1234567891"
+    assert order.timestamp == 1234567891
 
 
 def test_order_linking():

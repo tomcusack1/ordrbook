@@ -44,15 +44,23 @@ class Queue:
         self._tail = value
 
     def append(self, order):
-        if len(self) == 0:
+        """Appends an order to the end of the queue.
+        
+        Args:
+            order (Order): The order to append
+        """
+        if self.length == 0:  # Empty queue
             order.next_order = None
             order.previous_order = None
             self.head = order
             self.tail = order
-        else:
+        else:  # Add to end of existing queue
+            # First set the new order's links
             order.previous_order = self.tail
             order.next_order = None
+            # Then update the existing tail's next_order
             self.tail.next_order = order
+            # Finally update the queue's tail pointer
             self.tail = order
 
         self.length += 1
@@ -69,6 +77,9 @@ class Queue:
         self.length -= 1
 
         if self.length == 0:
+            self.head = None
+            self._tail = None
+            self.last = None
             return
 
         next_order = order.next_order
@@ -89,18 +100,22 @@ class Queue:
 
         Check to see that the quantity is larger than existing, update the quantities, then move to tail.
         """
-        if (
-            order.previous_order is not None
-        ):  # This Order is not the first Order in the OrderList
-            order.previous_order.next_order = (
-                order.next_order
-            )  # Link the previous Order to the next Order, then move the Order to tail
-        else:  # This Order is the first Order in the OrderList
-            self.head = order.next_order  # Make next order the first
+        if order.next_order is None:
+            # Order is already at tail, nothing to do
+            return
 
+        # Update links for previous order
+        if order.previous_order is not None:
+            order.previous_order.next_order = order.next_order
+        else:
+            self.head = order.next_order
+
+        # Update links for next order
         order.next_order.previous_order = order.previous_order
 
-        # Move Order to the last position. Link up the previous last position Order.
+        # Move order to tail
+        order.previous_order = self.tail
+        order.next_order = None
         self.tail.next_order = order
         self.tail = order
 

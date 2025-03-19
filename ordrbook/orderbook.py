@@ -31,20 +31,22 @@ class OrderBook:
         price = round(quote["price"], int(log10(1 / self.tick_size)))
 
         if quote["type"] == "bid":
-            while self.asks and price > self.asks.min_price() and quantity > 0:
+            while self.asks and price >= self.asks.min_price() and quantity > 0:
                 best_price_asks = self.asks.min_price_list()
                 self.process_orders(
                     side="ask", orders=best_price_asks, quantity=quantity, quote=quote
                 )
+                quantity = quote["quantity"]  # Update quantity after processing
             if quantity > 0:
                 quote["quantity"] = quantity
                 self.bids.insert_order(quote)
         elif quote["type"] == "ask":
-            while self.bids and price < self.bids.max_price() and quantity > 0:
+            while self.bids and price <= self.bids.max_price() and quantity > 0:
                 best_price_bids = self.bids.max_price_list()
                 self.process_orders(
                     side="bid", orders=best_price_bids, quantity=quantity, quote=quote
                 )
+                quantity = quote["quantity"]  # Update quantity after processing
 
             if quantity > 0:
                 quote["quantity"] = quantity
@@ -69,7 +71,7 @@ class OrderBook:
                     self.bids.remove_order_by_id(head_order.order_id)
                 else:
                     self.asks.remove_order_by_id(head_order.order_id)
-                    quantity = 0
+                quantity = 0
             else:
                 # Quantity to trade is larger than the head order
                 traded_quantity = head_order.quantity
@@ -77,4 +79,4 @@ class OrderBook:
                     self.bids.remove_order_by_id(head_order.order_id)
                 else:
                     self.asks.remove_order_by_id(head_order.order_id)
-                    quantity -= traded_quantity
+                quantity -= traded_quantity

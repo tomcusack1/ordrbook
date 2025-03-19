@@ -92,20 +92,24 @@ class Book:
         """
         order = self.orders[order_update["order_id"]]
         original_quantity = order.quantity
+        
         if order_update["price"] != order.price:
             # Price changed. Remove order and update tree.
             order_list = self.prices[order.price]
             order_list.remove(order)
-            if (
-                len(order_list) == 0
-            ):  # If there is nothing else in the OrderList, remove the price from RBtree
+            if len(order_list) == 0:
+                # If there is nothing else in the OrderList, remove the price from RBtree
                 self.remove_price(order.price)
+            
+            # Remove the order from orders dict before inserting updated version
+            del self.orders[order_update["order_id"]]
+            self.num_orders += 1  # Compensate for the removal
+            
             self.insert_order(order_update)
         else:
             # Quantity changed. Price is the same.
-            order.update_quantity(order_update["quantity"], order_update["timestamp"])
-
-        self.volume += order.quantity - original_quantity
+            order.update_quantity(int(order_update["quantity"]), int(order_update["timestamp"]))
+            self.volume += int(order_update["quantity"]) - original_quantity
 
     def remove_order_by_id(self, order_id: str):
         """Removes an order from the book by order_id.
