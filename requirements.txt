@@ -1,2 +1,1 @@
-bintrees==2.0.7
-blkchn
+bintrees==2.2.0
